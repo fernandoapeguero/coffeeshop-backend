@@ -18,10 +18,6 @@ CORS(app)
 
 # ROUTES
 
-@app.route("/") 
-def home_view(): 
-        return "<h1>Welcome to Geeks for Geeks</h1>"
-
 
 @app.route('/drinks')
 def get_drinks():
@@ -60,7 +56,6 @@ def get_drink_details(jwt):
     except:
         abort(404)
 
-
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
 def post_drinks(jwt):
@@ -79,20 +74,6 @@ def post_drinks(jwt):
         }), 200
     except:
         abort(400)
-
-
-'''
-@TODO implement endpoint
-    PATCH /drinks/<id>
-        where <id> is the existing model id
-        it should respond with a 404 error if <id> is not found
-        it should update the corresponding row for <id>
-        it should require the 'patch:drinks' permission
-        it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
-        or appropriate status code indicating reason for failure
-'''
-
 
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
@@ -170,7 +151,6 @@ def auth_error(error):
         'error': error.error,
         'message': 'Authentication error'
     }), error.status_code
-
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))

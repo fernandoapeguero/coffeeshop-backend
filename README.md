@@ -80,6 +80,11 @@ Here you will find all the endpoint you need to work with the api
 The Structure of the EndPoint library is simple since you will deploy the backend localy for this app we know the domain will be http://127.0.0.1:5000
 and you will only need the path for example /trivia_api/questions in this library we will prefix the path with the method needed for the call. 
 
+## Heroku 
+
+currently this backend is deploy in heroku and is very simple to substitute the domain in the local uri to the heroku provided one if you are using the deploy version 
+<heroku deploy uri>/<end point> and it will work without no problem.
+
 Example: POST/drinks
 
 ---

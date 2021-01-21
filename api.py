@@ -56,6 +56,7 @@ def get_drink_details(jwt):
     except:
         abort(404)
 
+
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
 def post_drinks(jwt):
@@ -75,27 +76,43 @@ def post_drinks(jwt):
     except:
         abort(400)
 
+
 @app.route('/drinks/<int:drink_id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def post_drink(jwt, drink_id):
 
     try:
         data = request.get_json()
-        print(drink_id)
-
-        recipe = data['recipe']
 
         drink = Drink.query.filter(Drink.id == drink_id).first()
 
         if not drink:
             abort(404)
 
-        drink.recipe = json.dumps(recipe)
+        title = ''
+
+        if 'title' in data:
+            title = data['title']
+        else:
+            title = drink.title
+
+        recipe = ''
+        if 'recipe' in data:
+            recipe = data['recipe']
+        else:
+            recipe = drink.recipe
+
+        drink.title = title
+        drink.recipe = str(recipe)
         drink.update()
+
+        result = []
+
+        result.append(drink.long())
 
         return jsonify({
             'success': True,
-            'drinks': drink.long()
+            'drinks': result
         }), 200
     except:
         abort(404)
@@ -152,6 +169,7 @@ def auth_error(error):
         'message': 'Authentication error'
     }), error.status_code
 
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0' , port=port)
+    app.run(host='0.0.0.0', port=port)

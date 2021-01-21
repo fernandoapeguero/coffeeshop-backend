@@ -46,8 +46,9 @@ def get_drink_details(jwt):
         drinks = Drink.query.all()
 
         results = []
-        for drink in drinks:
-            results.append(drink.long())
+        if drinks:
+            for drink in drinks:
+                results.append(drink.long())
 
         return jsonify({
             'success': True,
